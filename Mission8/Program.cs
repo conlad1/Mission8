@@ -1,4 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using Mission8.Models;
+using Mission8.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Add DbContext
+builder.Services.AddDbContext<TaskDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("TaskDbContext")));
+
+//Add Repository
+builder.Services.AddScoped<ITaskRepository, EFTaskRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,8 +32,8 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

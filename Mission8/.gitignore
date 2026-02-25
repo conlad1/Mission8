@@ -1,0 +1,12 @@
+﻿# Ignore Visual Studio cache files
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# Ignore database files (optional)
+*.db
+
+# Ignore other temporary files
+*.log
