@@ -1,0 +1,162 @@
+@model IEnumerable<Mission8.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Quadrants";
+
+    // Group tasks by quadrant number
+    var q1 = Model.Where(t => t.QuadrantId == 1).ToList();
+    var q2 = Model.Where(t => t.QuadrantId == 2).ToList();
+    var q3 = Model.Where(t => t.QuadrantId == 3).ToList();
+    var q4 = Model.Where(t => t.QuadrantId == 4).ToList();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Task Quadrants</h2>
+    <a asp-controller="Task" asp-action="Add" class="btn btn-primary">+ Add Task</a>
+</div>
+
+@* 
+    PLACEHOLDER VIEW - for navigation testing only.
+    Teammate #3 is responsible for building the real Quadrants view.
+    This file should NOT be committed.
+*@
+<div class="alert alert-info">
+    <strong>Note:</strong> This is a placeholder Quadrants view for testing. Teammate #3 will build the real version.
+</div>
+
+@* Bootstrap grid: 2x2 layout mimicking the Covey matrix *@
+<div class="row g-3">
+
+    @* ---- Quadrant 1: Important / Urgent ---- *@
+    <div class="col-md-6">
+        <div class="card border-danger h-100">
+            <div class="card-header bg-danger text-white fw-bold">
+                Quadrant 1 — Important / Urgent
+            </div>
+            <div class="card-body">
+                @if (!q1.Any())
+                {
+                    <p class="text-muted fst-italic">No tasks here.</p>
+                }
+                else
+                {
+                    @foreach (var task in q1)
+                    {
+                        <div class="d-flex justify-content-between align-items-start mb-2 border-bottom pb-2">
+                            <div>
+                                <strong>@task.TaskName</strong>
+                                @if (task.DueDate.HasValue)
+                                {
+                                    <br/><small class="text-muted">Due: @task.DueDate.Value.ToShortDateString()</small>
+                                }
+                            </div>
+                            <div class="d-flex gap-1">
+                                <a asp-controller="Task" asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @* ---- Quadrant 2: Important / Not Urgent ---- *@
+    <div class="col-md-6">
+        <div class="card border-primary h-100">
+            <div class="card-header bg-primary text-white fw-bold">
+                Quadrant 2 — Important / Not Urgent
+            </div>
+            <div class="card-body">
+                @if (!q2.Any())
+                {
+                    <p class="text-muted fst-italic">No tasks here.</p>
+                }
+                else
+                {
+                    @foreach (var task in q2)
+                    {
+                        <div class="d-flex justify-content-between align-items-start mb-2 border-bottom pb-2">
+                            <div>
+                                <strong>@task.TaskName</strong>
+                                @if (task.DueDate.HasValue)
+                                {
+                                    <br/><small class="text-muted">Due: @task.DueDate.Value.ToShortDateString()</small>
+                                }
+                            </div>
+                            <div class="d-flex gap-1">
+                                <a asp-controller="Task" asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @* ---- Quadrant 3: Not Important / Urgent ---- *@
+    <div class="col-md-6">
+        <div class="card border-warning h-100">
+            <div class="card-header bg-warning fw-bold">
+                Quadrant 3 — Not Important / Urgent
+            </div>
+            <div class="card-body">
+                @if (!q3.Any())
+                {
+                    <p class="text-muted fst-italic">No tasks here.</p>
+                }
+                else
+                {
+                    @foreach (var task in q3)
+                    {
+                        <div class="d-flex justify-content-between align-items-start mb-2 border-bottom pb-2">
+                            <div>
+                                <strong>@task.TaskName</strong>
+                                @if (task.DueDate.HasValue)
+                                {
+                                    <br/><small class="text-muted">Due: @task.DueDate.Value.ToShortDateString()</small>
+                                }
+                            </div>
+                            <div class="d-flex gap-1">
+                                <a asp-controller="Task" asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    @* ---- Quadrant 4: Not Important / Not Urgent ---- *@
+    <div class="col-md-6">
+        <div class="card border-secondary h-100">
+            <div class="card-header bg-secondary text-white fw-bold">
+                Quadrant 4 — Not Important / Not Urgent
+            </div>
+            <div class="card-body">
+                @if (!q4.Any())
+                {
+                    <p class="text-muted fst-italic">No tasks here.</p>
+                }
+                else
+                {
+                    @foreach (var task in q4)
+                    {
+                        <div class="d-flex justify-content-between align-items-start mb-2 border-bottom pb-2">
+                            <div>
+                                <strong>@task.TaskName</strong>
+                                @if (task.DueDate.HasValue)
+                                {
+                                    <br/><small class="text-muted">Due: @task.DueDate.Value.ToShortDateString()</small>
+                                }
+                            </div>
+                            <div class="d-flex gap-1">
+                                <a asp-controller="Task" asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
