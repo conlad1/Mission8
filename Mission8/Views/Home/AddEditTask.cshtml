@@ -1,9 +1,11 @@
 @model Mission8.Models.TaskItem
 
 @{
-    // If TaskItemId is 0, this is a new task. Otherwise we're editing.
     bool isEditing = Model.TaskItemId != 0;
     ViewData["Title"] = isEditing ? "Edit Task" : "Add Task";
+
+    // Tells _Layout.cshtml to show the subtle back link in the navbar
+    ViewData["ShowBack"] = true;
 }
 
 <div class="row justify-content-center">
@@ -11,18 +13,17 @@
 
         <h2 class="mb-4">@ViewData["Title"]</h2>
 
-        @* asp-action="Save" matches the [HttpPost] Save() method in TaskController *@
-        <form asp-controller="Task" asp-action="Save" method="post">
+        <form asp-controller="Home" asp-action="Save" method="post">
 
-            @* Hidden field carries the TaskItemId so the controller knows which task to update.
-               For new tasks this will be 0, which tells Save() to insert instead of update. *@
+            @* Hidden field carries the TaskItemId so the controller knows whether to insert or update *@
             <input type="hidden" asp-for="TaskItemId" />
 
             @* ---- Task Name ---- *@
             <div class="mb-3">
-                <label asp-for="TaskName" class="form-label fw-semibold">Task <span class="text-danger">*</span></label>
+                <label asp-for="TaskName" class="form-label fw-semibold">
+                    Task <span class="text-danger">*</span>
+                </label>
                 <input asp-for="TaskName" class="form-control" placeholder="What needs to be done?" />
-                @* asp-validation-for shows the Required error message if left blank *@
                 <span asp-validation-for="TaskName" class="text-danger small"></span>
             </div>
 
@@ -34,9 +35,10 @@
             </div>
 
             @* ---- Quadrant ---- *@
-            @* Radio buttons make the four quadrants easy to understand at a glance *@
             <div class="mb-3">
-                <label class="form-label fw-semibold">Quadrant <span class="text-danger">*</span></label>
+                <label class="form-label fw-semibold">
+                    Quadrant <span class="text-danger">*</span>
+                </label>
                 <div class="row g-2">
 
                     <div class="col-6">
@@ -84,7 +86,6 @@
             </div>
 
             @* ---- Category Dropdown ---- *@
-            @* ViewBag.Categories is a SelectList populated by the controller *@
             <div class="mb-3">
                 <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
                 <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
@@ -93,7 +94,7 @@
                 <span asp-validation-for="CategoryId" class="text-danger small"></span>
             </div>
 
-            @* ---- Completed checkbox (mainly useful when editing) ---- *@
+            @* ---- Completed (only shown when editing) ---- *@
             @if (isEditing)
             {
                 <div class="mb-3 form-check">
@@ -107,7 +108,7 @@
                 <button type="submit" class="btn btn-primary">
                     @(isEditing ? "Save Changes" : "Add Task")
                 </button>
-                <a asp-controller="Task" asp-action="Quadrants" class="btn btn-outline-secondary">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
                     Cancel
                 </a>
             </div>
@@ -116,7 +117,6 @@
     </div>
 </div>
 
-@* Client-side validation - only loads the scripts when this view is rendered *@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

@@ -1,8 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Mission8.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Task List";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Tasks</h2>
+    <a asp-controller="Home" asp-action="Add" class="btn btn-primary">+ Add Task</a>
 </div>
+
+@* Temporary placeholder — teammate #3 will replace this with the real Quadrants view *@
+@if (!Model.Any())
+{
+    <p class="text-muted fst-italic">No tasks yet. Add one above!</p>
+}
+else
+{
+    @foreach (var task in Model)
+    {
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <span>@task.TaskName</span>
+            <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+        </div>
+    }
+}
