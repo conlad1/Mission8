@@ -1,29 +1,23 @@
-// ============================================================
-//  TEMPORARY FILE - FOR LOCAL TESTING ONLY
-//  Do NOT commit or push this file.
-//  Your teammate (#1) will create the real models.
-// ============================================================
-
+﻿using Mission8.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Mission8.Models;
-
-public class TaskItem
+namespace Mission8.Models
 {
-    public int TaskItemId { get; set; }
+    public class TaskItem
+    {
+        [Key]
+        public int TaskId { get; set; }
+        [Required]
+        public string TaskName { get; set; }
+        public DateTime? DueDate { get; set; }
 
-    [Required]
-    public string TaskName { get; set; } = string.Empty;
+        [Required]
+        public int Quadrant { get; set; }
+        public bool Completed { get; set; } = false;
 
-    public DateTime? DueDate { get; set; }
-
-    [Required]
-    public int QuadrantId { get; set; }
-
-    public int? CategoryId { get; set; }
-
-    // Navigation property - links to the Category table
-    public Category? Category { get; set; }
-
-    public bool Completed { get; set; } = false;
+        //Foreign Key
+        [Required]
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
+    }
 }

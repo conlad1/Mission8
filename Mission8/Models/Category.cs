@@ -1,13 +1,14 @@
-// ============================================================
-//  TEMPORARY FILE - FOR LOCAL TESTING ONLY
-//  Do NOT commit or push this file.
-//  Your teammate (#1) will create the real models.
-// ============================================================
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Mission8.Models;
-
-public class Category
+namespace Mission8.Models
 {
-    public int CategoryId { get; set; }
-    public string CategoryName { get; set; } = string.Empty;
+    public class Category
+    {
+        [Key]
+        public int CategoryId { get; set; }
+        [Required]
+        public string CategoryName { get; set; }
+        public List<TaskItem> Tasks { get; set; }
+    }
 }
+
