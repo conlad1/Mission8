@@ -11,44 +11,30 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-        <div class="container-fluid">
+    <nav class="navbar navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <div class="container">
 
-            @* Brand / site name *@
-            <a class="navbar-brand fw-bold" asp-controller="Task" asp-action="Quadrants">
-                📋 Task Manager
+            @* Subtle back link — only shown on the Add/Edit page.
+               The view sets ViewData["ShowBack"] = true to trigger this. *@
+            @if (ViewData["ShowBack"] is true)
+            {
+                <a asp-controller="Home" asp-action="Index" class="text-white-50 text-decoration-none small">
+                    &larr; Quadrants
+                </a>
+            }
+            else
+            {
+                @* Empty div keeps the title centered when there's no back link *@
+                <div style="width: 80px;"></div>
+            }
+
+            @* Centered brand title — clicking it always goes to the Quadrants page *@
+            <a class="navbar-brand mx-auto fw-bold" asp-controller="Home" asp-action="Index">
+                Task Manager
             </a>
 
-            @* Hamburger toggle for mobile *@
-            <button class="navbar-toggler" type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            @* Nav links *@
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-
-                    @* Link to the Quadrants view (teammate #3's view) *@
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-controller="Task" asp-action="Quadrants">
-                            View Quadrants
-                        </a>
-                    </li>
-
-                    @* Link to the Add Task view (your view) *@
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-controller="Task" asp-action="Add">
-                            + Add Task
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
+            @* Balancing spacer so the title stays truly centered *@
+            <div style="width: 80px;"></div>
 
         </div>
     </nav>
