@@ -1,0 +1,122 @@
+@model Mission8.Models.TaskItem
+
+@{
+    bool isEditing = Model.TaskItemId != 0;
+    ViewData["Title"] = isEditing ? "Edit Task" : "Add Task";
+
+    // Tells _Layout.cshtml to show the subtle back link in the navbar
+    ViewData["ShowBack"] = true;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+        <h2 class="mb-4">@ViewData["Title"]</h2>
+
+        <form asp-controller="Home" asp-action="Save" method="post">
+
+            @* Hidden field carries the TaskItemId so the controller knows whether to insert or update *@
+            <input type="hidden" asp-for="TaskItemId" />
+
+            @* ---- Task Name ---- *@
+            <div class="mb-3">
+                <label asp-for="TaskName" class="form-label fw-semibold">
+                    Task <span class="text-danger">*</span>
+                </label>
+                <input asp-for="TaskName" class="form-control" placeholder="What needs to be done?" />
+                <span asp-validation-for="TaskName" class="text-danger small"></span>
+            </div>
+
+            @* ---- Due Date ---- *@
+            <div class="mb-3">
+                <label asp-for="DueDate" class="form-label fw-semibold">Due Date</label>
+                <input asp-for="DueDate" type="date" class="form-control" />
+                <span asp-validation-for="DueDate" class="text-danger small"></span>
+            </div>
+
+            @* ---- Quadrant ---- *@
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    Quadrant <span class="text-danger">*</span>
+                </label>
+                <div class="row g-2">
+
+                    <div class="col-6">
+                        <div class="form-check border rounded p-3 h-100 @(Model.QuadrantId == 1 ? "border-danger bg-danger bg-opacity-10" : "")">
+                            <input class="form-check-input" type="radio" asp-for="QuadrantId" value="1" id="q1" />
+                            <label class="form-check-label" for="q1">
+                                <strong>Quadrant 1</strong><br/>
+                                <small class="text-muted">Important / Urgent</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-check border rounded p-3 h-100 @(Model.QuadrantId == 2 ? "border-primary bg-primary bg-opacity-10" : "")">
+                            <input class="form-check-input" type="radio" asp-for="QuadrantId" value="2" id="q2" />
+                            <label class="form-check-label" for="q2">
+                                <strong>Quadrant 2</strong><br/>
+                                <small class="text-muted">Important / Not Urgent</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-check border rounded p-3 h-100 @(Model.QuadrantId == 3 ? "border-warning bg-warning bg-opacity-10" : "")">
+                            <input class="form-check-input" type="radio" asp-for="QuadrantId" value="3" id="q3" />
+                            <label class="form-check-label" for="q3">
+                                <strong>Quadrant 3</strong><br/>
+                                <small class="text-muted">Not Important / Urgent</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-check border rounded p-3 h-100 @(Model.QuadrantId == 4 ? "border-secondary bg-secondary bg-opacity-10" : "")">
+                            <input class="form-check-input" type="radio" asp-for="QuadrantId" value="4" id="q4" />
+                            <label class="form-check-label" for="q4">
+                                <strong>Quadrant 4</strong><br/>
+                                <small class="text-muted">Not Important / Not Urgent</small>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <span asp-validation-for="QuadrantId" class="text-danger small"></span>
+            </div>
+
+            @* ---- Category Dropdown ---- *@
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                    <option value="">-- Select a Category --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+            </div>
+
+            @* ---- Completed (only shown when editing) ---- *@
+            @if (isEditing)
+            {
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="Completed" id="completedCheck" />
+                    <label class="form-check-label" for="completedCheck">Mark as Completed</label>
+                </div>
+            }
+
+            @* ---- Buttons ---- *@
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">
+                    @(isEditing ? "Save Changes" : "Add Task")
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
